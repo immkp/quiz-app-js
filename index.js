@@ -1,13 +1,14 @@
 $.get("https://5d76bf96515d1a0014085cf9.mockapi.io/quiz", function (res) {
+  let data = res
   let questionWrap = ""
-  for (let i = 0; i < res.length; i++) {
+  for (let i = 0; i < data.length; i++) {
     questionWrap += `<div class="Question-wrapper"> <h2 class="quiz-question"> Q${
-      i + 1 + ". " + res[i].question
+      i + 1 + ". " + data[i].question
     }<h2>`
     questionWrap += `<div class="options-wrapper">`
-    for (let j = 0; j < res[i].options.length; j++) {
+    for (let j = 0; j < data[i].options.length; j++) {
       questionWrap += `<div class="option">
-                  <label class="labels"><input type="radio" name="${res[i].id}"  value="${res[i].options[j]}">${res[i].options[j]}</label>
+                  <label class="labels"><input type="radio" name="${data[i].id}"  value="${data[i].options[j]}">${data[i].options[j]}</label>
               </div>`
     }
     questionWrap += `</div></div>`
@@ -33,18 +34,19 @@ $.get("https://5d76bf96515d1a0014085cf9.mockapi.io/quiz", function (res) {
     let finalScore = 0
     let getAnswer = $("#quizApp div input[type=radio]:checked")
     console.log(getAnswer)
-    if (res) {
+    if (data) {
       for (let i = 0; i < getAnswer.length; i++) {
-        let options = res[getAnswer[i].name - 1]["options"]
+        let options = data[getAnswer[i].name - 1]["options"]
         if (
-          res[getAnswer[i].name - 1]["answer"] ==
+          data[getAnswer[i].name - 1]["answer"] ==
           options.indexOf(getAnswer[i].value) + 1
         ) {
           finalScore++
         }
       }
-      score.text(`${finalScore + "/" + res.length}`)
+      score.text(`${finalScore + "/" + data.length}`)
       $("#resetBtn").click()
     }
   })
 })
+
